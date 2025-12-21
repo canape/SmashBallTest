@@ -119,8 +119,5 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         Debug.Log($"Touch ended in GamePlayController (phase={phase})");
 
         hero.Swing();
-        
-        //var jumpPosition = transform.position + new Vector3(0.0f, 1.0f, 0.0f);
-        //transform.DOJump(transform.position, .2f, 1, 0.3f);
     }
 }

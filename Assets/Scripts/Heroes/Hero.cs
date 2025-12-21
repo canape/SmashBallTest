@@ -37,7 +37,7 @@ public class Hero : MonoBehaviour
         }
 
         isSwining = true;
-        character.transform.DOJump(character.transform.position, .2f, 1, 0.3f).OnComplete(() => {
+        character.transform.DOLocalJump(character.transform.localPosition, .2f, 1, 0.3f).OnComplete(() => {
             isSwining = false;
         });
     }
