@@ -24,6 +24,6 @@ public class PlayerManager : IPlayerManager
 
     public int GetSelectedHeroId()
     {
-        return 0;
+        return 1;
     }
 }

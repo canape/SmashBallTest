@@ -18,3 +18,26 @@ MonoBehaviour:
     health: 100
     prefab: {fileID: 6644603938449114179, guid: 38afca50d330143cd823ee03d53bc077,
       type: 3}
+    AoEPrefab: {fileID: 3442463428920091252, guid: a0a0f7185b9714e8194162703fbfcf93,
+      type: 3}
+  - heroId: 1
+    heroName: Cricket Batsman
+    health: 100
+    prefab: {fileID: 4653247046118013287, guid: f8d50d82996c44eb9a5c87327acf0a81,
+      type: 3}
+    AoEPrefab: {fileID: 3442463428920091252, guid: a0a0f7185b9714e8194162703fbfcf93,
+      type: 3}
+  - heroId: 2
+    heroName: Cricket Fielder
+    health: 100
+    prefab: {fileID: 8346789638012683817, guid: d9a0e51238791478ba9f48a344770c96,
+      type: 3}
+    AoEPrefab: {fileID: 3442463428920091252, guid: a0a0f7185b9714e8194162703fbfcf93,
+      type: 3}
+  - heroId: 3
+    heroName: Doc
+    health: 100
+    prefab: {fileID: 3300799546944532708, guid: a2b541ddc05a447a6b858afbc7088a63,
+      type: 3}
+    AoEPrefab: {fileID: 3442463428920091252, guid: a0a0f7185b9714e8194162703fbfcf93,
+      type: 3}

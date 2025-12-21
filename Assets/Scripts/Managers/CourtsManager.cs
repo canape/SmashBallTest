@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
@@ -7,6 +5,7 @@ public interface ICourtsManager
 {
     public CourtData GetCourtDataById(int courtId);
     public Court GetCourtById(int courtId);
+    public Ball GetBallByCourtId(int courtId);
 }
 
 public class CourtsManager : ICourtsManager
@@ -33,5 +32,17 @@ public class CourtsManager : ICourtsManager
         }
 
         return courtData.GetCourt();
+    }
+
+    public Ball GetBallByCourtId(int courtId)
+    {
+        var courtData = GetCourtDataById(courtId);
+        if (courtData == null)
+        {
+            Debug.LogError($"Cannot get the courtData for the court {courtId}");
+            return null;
+        }
+
+        return courtData.GetBall();
     }
 }

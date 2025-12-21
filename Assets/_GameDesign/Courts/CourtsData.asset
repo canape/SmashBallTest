@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   datas:
   - courtId: 0
-    courtName: Basic
+    courtName: Basic Court
+    startHeroPosition: {x: 0, y: 0, z: -4.5}
+    startOpponentPosition: {x: 0, y: 0, z: 4.5}
     prefab: {fileID: 7749279526503696698, guid: 745fee92d652244ccb61bdf4ab832c33,
+      type: 3}
+    ballPrefab: {fileID: 7218029274399197861, guid: 1837fa7a6443e4003816dc164aed4b84,
       type: 3}
