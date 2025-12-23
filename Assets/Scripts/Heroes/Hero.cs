@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -9,17 +7,13 @@ public class Hero : MonoBehaviour
     
     private HeroAoE AoE;
     private bool isSwining;
+    private int lives;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int Lives => lives;
 
-    // Update is called once per frame
-    void Update()
+    void Awake()
     {
-        
+        lives = 3;
     }
 
     public void SetAoE(HeroAoE AoE)
@@ -40,5 +34,16 @@ public class Hero : MonoBehaviour
         character.transform.DOLocalJump(character.transform.localPosition, .2f, 1, 0.3f).OnComplete(() => {
             isSwining = false;
         });
+    }
+
+    public void SetDirection(Vector3 direction)
+    {
+        Quaternion targetRot = Quaternion.LookRotation(-direction);
+        character.transform.rotation = targetRot;
+    }
+
+    public void SubstractLive()
+    {
+        lives--;
     }
 }

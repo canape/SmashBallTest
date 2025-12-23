@@ -313,7 +313,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &335435260982950178
 GameObject:
@@ -523,7 +523,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &846513016954715463
 GameObject:
@@ -628,7 +628,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &959743558657398626
 GameObject:
@@ -733,7 +733,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1174563293175080210
 GameObject:
@@ -838,7 +838,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1232766131713311291
 GameObject:
@@ -943,7 +943,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1538675326557071007
 GameObject:
@@ -1378,7 +1378,7 @@ GameObject:
   - component: {fileID: 1077962727801901203}
   - component: {fileID: 202563780425683254}
   - component: {fileID: 4863829222747545820}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TopMiddleLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1596,7 +1596,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &3545208286761559323
 GameObject:
@@ -1610,7 +1610,7 @@ GameObject:
   - component: {fileID: 2904739940234482938}
   - component: {fileID: 1713174801420157820}
   - component: {fileID: 7024044687034238140}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BottomMiddleLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1806,7 +1806,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &4384500875030467145
 GameObject:
@@ -2331,7 +2331,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &5114158655387785031
 GameObject:
@@ -2856,7 +2856,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &5965308207715893464
 GameObject:
@@ -3277,7 +3277,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7043808199922393978
 GameObject:
@@ -3921,7 +3921,7 @@ GameObject:
   - component: {fileID: 4702692579697204688}
   - component: {fileID: 2933296331617353549}
   - component: {fileID: 3464780357219130799}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BottomLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4027,7 +4027,7 @@ GameObject:
   - component: {fileID: 7124031541912305461}
   - component: {fileID: 3601057891113650445}
   - component: {fileID: 1155046030095547612}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TopLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4224,7 +4224,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 2}
+  m_Size: {x: 1, y: 4, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7749279526503696698
 GameObject:
@@ -4418,7 +4418,7 @@ GameObject:
   - component: {fileID: 7691505429734531875}
   - component: {fileID: 8838953051124155361}
   - component: {fileID: 1845782683583412281}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MiddleBrown
   m_TagString: Untagged
   m_Icon: {fileID: 0}

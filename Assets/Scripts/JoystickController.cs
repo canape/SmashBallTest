@@ -3,12 +3,14 @@ using UnityEngine.InputSystem;
 using Terresquall;
 using System.Threading;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public class JoysticsController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     private Vector3 _movement;
     private Rigidbody _rb;
+    private Hero hero;
 
     void Awake()
     {
@@ -16,6 +18,13 @@ public class JoysticsController : MonoBehaviour
         if (_rb == null)
         {
             Debug.LogError($"There is not RigidBody in the JoysticsController for the GameObject with name {name}");
+            return;
+        }
+
+        hero = GetComponent<Hero>();
+        if (hero == null)
+        {
+            Debug.LogError($"There is not Hero in the JoysticsController for the GameObject with name {name}");
             return;
         }
     }
@@ -43,6 +52,13 @@ public class JoysticsController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_movement == Vector3.zero)
+        {
+            _rb.velocity = Vector3.zero;
+            return;
+        }
+
         _rb.velocity = _movement * moveSpeed;
+        hero.SetDirection(_movement);
     }
 }

@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Rigidbody rb;
+
+    void Awake()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            Debug.LogError($"The ball {name} doesn't have a RigidBody");
+            return;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetDirectionAndForce(Vector3 direction, float force)
     {
-        
+        rb.velocity = Vector3.zero;
+        rb.AddForce(direction * force, ForceMode.Impulse);
     }
 }
