@@ -20,19 +20,11 @@ public class Ball : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
     }
 
-    public void ResetPose(Vector3 localPosition, Quaternion localRotation)
+    public void SetPosition(Vector3 position, Quaternion rotation)
     {
         PauseMovement();
-        if (rb != null)
-        {
-            rb.position = transform.parent.TransformPoint(localPosition);
-            rb.rotation = transform.parent.rotation * localRotation;
-        }
-        else
-        {
-            transform.localPosition = localPosition;
-            transform.localRotation = localRotation;
-        }
+        rb.position = position;
+        rb.rotation = rotation;
     }
 
     public void SetDirectionAndForce(Vector3 direction, float force)

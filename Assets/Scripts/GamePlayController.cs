@@ -3,6 +3,7 @@ using Zenject;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 using Terresquall;
 
 
@@ -31,7 +32,6 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
     private CinemachineVirtualCamera serveVirtualCamera;
     private CinemachineVirtualCamera winVirtualCamera;
 
-    private SignalBus signalBus;
     private PlayerInput playerInput;
     private InputAction touchPressInputAction;
     
@@ -40,13 +40,15 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
     private Hero hero;
     private Hero opponent;
 
-    private bool touchActivated;
-    private bool heroMovementActivated;
+    private bool touchActive;
+    private bool movementActive;
 
     private GameplayStatus status;
 
+    //This doesn't mneeds to be here
+    bool opponentAlreadySwing;
+
     public GamePlayController(
-        SignalBus signalBus,
         IPlayerManager playerManager, 
         ICourtsManager courtManager, 
         IHeroesManager heroesManager,
@@ -57,7 +59,6 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         PlayerInput playerInput
         )
     {
-        this.signalBus = signalBus;
         this.playerManager = playerManager;
         this.courtManager = courtManager;
         this.heroesManager = heroesManager;
@@ -90,6 +91,7 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         court.SetOpponent(opponent);
 
         touchPressInputAction = playerInput.actions["Touch"];
+        touchPressInputAction.canceled += TouchEnded;
 
         SetupCameras();
         StartMatch();
@@ -97,8 +99,7 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
 
     public void Dispose()
     {
-        DeactivateTouch();
-        DeactivatePlayerMovement();
+        touchPressInputAction.canceled -= TouchEnded;
     }
 
     public void Tick()
@@ -109,7 +110,8 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         }
 
         AwesomeOpponentAI();
-        DetectHits();
+        DetectHit(hero);
+        DetectHit(opponent);
         MoveHero();
     }
 
@@ -117,61 +119,48 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
     {
         float distance = Vector3.Distance(opponent.transform.position, ball.transform.position);
 
-        if (distance <= 2)
+        if (!opponent.IsSwining && distance <= 2f)
         {
             opponent.Swing();
 
-            Vector3 hitNormal = (ball.transform.position - opponent.transform.position).normalized;
-            float forceMagnitude = 5;
-            ball.SetDirectionAndForce(hitNormal, forceMagnitude);
+            bool swingFailed = Random.Range(0, 100) < 10;
+            if (swingFailed)
+            {
+                return;
+            }
+
+            HitTheBall(opponent.transform.position);
         }
     }
 
-    private void DetectHits()
+    void HitTheBall(Vector3 position)
     {
-        DetectOpponentHit();
-        DetectHeroHit();
+        Vector3 hitNormal = (ball.transform.position - position).normalized;
+        float forceMagnitude = 5;
+        ball.SetDirectionAndForce(hitNormal, forceMagnitude);
     }
 
-    private void DetectOpponentHit()
+    private void DetectHit(Hero undefinedHero)
     {
-        float distance = Vector3.Distance(opponent.transform.position, ball.transform.position);
-        if (distance <= 1)
+        float distance = Vector3.Distance(undefinedHero.transform.position, ball.transform.position);
+        if (distance <= 0.7f)
         {
-            opponent.SubstractLive();
+            undefinedHero.SubstractLive();
 
-            if (opponent.Lives <= 0)
+            if (undefinedHero.Lives <= 0)
             {
-                FinishMatch(opponent);
+                FinishMatch(undefinedHero);
             }
             else
             {
-                FinishPoint(opponent);
-            }
-        }
-    }
-
-    private void DetectHeroHit()
-    {
-        float distance = Vector3.Distance(hero.transform.position, ball.transform.position);
-        if (distance <= 1)
-        {
-            hero.SubstractLive();
-
-            if (hero.Lives <= 0)
-            {
-                FinishMatch(hero);
-            }
-            else
-            {
-                FinishPoint(hero);
+                FinishPoint(undefinedHero);
             }
         }
     }
 
     private void MoveHero()
     {
-        if (!heroMovementActivated)
+        if (!movementActive)
         {
             return;
         }
@@ -200,40 +189,13 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         winVirtualCamera.enabled = false;
     }
 
-    private void ActivateTouch()
-    {
-        if (touchActivated)
-        {
-            return;
-        }
-
-        touchActivated = true;
-        touchPressInputAction.canceled += TouchEnded;
-    }
-
-    private void DeactivateTouch()
-    {
-        if (!touchActivated)
-        {
-            return;
-        }
-                
-        touchActivated = false;
-        touchPressInputAction.canceled -= TouchEnded;
-    }
-
-    private void ActivatePlayerMovement()
-    {
-        heroMovementActivated = true;
-    }
-
-    private void DeactivatePlayerMovement()
-    {
-        heroMovementActivated = false;
-    }
-
     private void TouchEnded(InputAction.CallbackContext context)
     {
+        if (!touchActive)
+        {
+            return;
+        }
+
         var touchscreen = Touchscreen.current;
         if (touchscreen == null)
         {
@@ -248,12 +210,10 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
             if (status == GameplayStatus.Serve)
             {
                 status = GameplayStatus.Point;
-                ActivatePlayerMovement();
+                movementActive = true;
             }
 
-            Vector3 hitNormal = (ball.transform.position - hero.transform.position).normalized;
-            float forceMagnitude = 5;
-            ball.SetDirectionAndForce(hitNormal, forceMagnitude);
+            HitTheBall(hero.transform.position);
         }
     }
 
@@ -264,8 +224,8 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         court.ResetPositions();
         ball.PauseMovement();
 
-        ActivateTouch();
-        DeactivatePlayerMovement();
+        touchActive = true;
+        movementActive = false;
     }
 
     public void FinishPoint(Hero loser)
@@ -273,22 +233,15 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         status = GameplayStatus.Smash;
         dialogsManager.CreateDialog(DialogType.Smash);
         ball.PauseMovement();
-        signalBus.Fire(new LivesChangedSignal() { Player = loser.Role, Lives = loser.Lives });
 
-        DeactivateTouch();
-        DeactivatePlayerMovement();
+        touchActive = false;
+        movementActive = false;
     }
 
     public void StartMatch()
     {
-        // Important: signalBus.Fire should be inside the Hero class to prevent
-        // firing this from multiple places. I can't do it right now because
-        // I'm running out of time.
-
         hero.ResetLives();
-        signalBus.Fire(new LivesChangedSignal() { Player = hero.Role, Lives = hero.Lives });
         opponent.ResetLives();
-        signalBus.Fire(new LivesChangedSignal() { Player = opponent.Role, Lives = opponent.Lives });
         
         Serve();
     }
@@ -298,10 +251,9 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         status = GameplayStatus.End;
         dialogsManager.CreateDialog(DialogType.Win);
         ball.PauseMovement();
-        signalBus.Fire(new LivesChangedSignal() { Player = loser.Role, Lives = loser.Lives });
 
-        DeactivateTouch();
-        DeactivatePlayerMovement();
+        touchActive = false;
+        movementActive = false;
     }
 
     public PlayerType? GetWinner()

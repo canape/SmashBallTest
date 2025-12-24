@@ -60,7 +60,7 @@ public class Court : MonoBehaviour
         opponent.transform.localPosition = courtData.StartOpponentPosition;
         opponent.ResetRotation();
 
-        ball.ResetPose(
+        ball.SetPosition(
             courtData.StartHeroPosition + new Vector3(0, 0.01f, 2),
             Quaternion.Euler(new Vector3(90, 0, 0))
         );

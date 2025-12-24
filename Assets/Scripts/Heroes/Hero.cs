@@ -1,9 +1,12 @@
 using UnityEngine;
 using DG.Tweening;
+using Zenject;
 
 public class Hero : MonoBehaviour
 {
     [SerializeField] private GameObject character;
+
+    [Inject] private SignalBus signalBus;
     
     private HeroAoE AoE;
     private bool isSwining;
@@ -11,6 +14,7 @@ public class Hero : MonoBehaviour
     private Rigidbody rb;
 
     public int Lives => lives;
+    public bool IsSwining => isSwining;
     public PlayerType Role;
 
     void Awake()
@@ -66,24 +70,18 @@ public class Hero : MonoBehaviour
     public void SubstractLive()
     {
         lives--;
+        signalBus.Fire(new LivesChangedSignal() { Player = Role, Lives = lives });
     }
 
     public void ResetLives()
     {
         lives = 3;
+        signalBus.Fire(new LivesChangedSignal() { Player = Role, Lives = lives });
     }
 
     public void ResetRotation()
     {
-        //This is not good. It is needed to refactor
-        if (Role == PlayerType.Opponent)
-        {
-            character.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        }
-        else
-        {
-            character.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        }
-        
+        Vector3 rotation = Role == PlayerType.Opponent ? new Vector3(0, 0, 0) : new Vector3(0, 180, 0);
+        character.transform.rotation = Quaternion.Euler(rotation);
     }
 }

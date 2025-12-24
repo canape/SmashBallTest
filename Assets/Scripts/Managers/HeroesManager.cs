@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using System.Linq;
+using Zenject;
 
 public interface IHeroesManager
 {
@@ -14,10 +15,12 @@ public interface IHeroesManager
 public class HeroesManager : IHeroesManager
 {
     private readonly HeroesData heroesData;
+    private readonly DiContainer diContainer;
 
-    public HeroesManager(HeroesData heroesData)
+    public HeroesManager(HeroesData heroesData, DiContainer diContainer)
     {
         this.heroesData = heroesData;
+        this.diContainer = diContainer;
     }
 
     public HeroData GetHeroDataById(int heroId)
@@ -34,6 +37,28 @@ public class HeroesManager : IHeroesManager
             return null;
         }
 
-        return heroData.GetHero();
+        var hero = diContainer.InstantiatePrefabForComponent<Hero>(heroData.Prefab);
+        var AoE = CreateAoE(heroData);
+        hero.SetAoE(AoE);
+
+        return hero;
+    }
+
+    private HeroAoE CreateAoE(HeroData heroData)
+    {
+        if (heroData.AoEPrefab == null)
+        {
+            Debug.LogError($"There is no AoEPrefab set in the hero {heroData.HeroName}");
+            return null;
+        }
+
+        var heroAoE = diContainer.InstantiatePrefabForComponent<HeroAoE>(heroData.AoEPrefab);
+        if (heroAoE == null)
+        {
+            Debug.LogError($"The hero prefab cannot be instantiated for the hero {heroData.HeroName}");
+            return null;
+        }
+
+        return heroAoE;
     }
 }

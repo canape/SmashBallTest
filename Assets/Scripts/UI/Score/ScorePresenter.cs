@@ -32,7 +32,7 @@ public class ScorePresenter : IPresenter
         }
         else if (data.Player == PlayerType.Opponent)
         {
-            view.ChangeOpponentText($"<b>Hero:</b> {data.Lives}");
+            view.ChangeOpponentText($"<b>Opponent:</b> {data.Lives}");
         }
         else
         {
