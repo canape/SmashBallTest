@@ -4,45 +4,45 @@ using SmashBallTest.Installers;
 
 namespace SmashBallTest.UI
 {
-public class ScorePresenter : IPresenter
-{
-    private ScoreView view;
-
-    [Inject] SignalBus signalBus;
-
-    public ScorePresenter(ScoreView view)
+    public class ScorePresenter : IPresenter
     {
-        this.view = view;
-        view.OnViewEnable += OnViewEnable;
-        view.OnViewDisable += OnViewDisable;
-    }
+        private ScoreView view;
 
-    private void OnViewEnable()
-    {
-        signalBus.Subscribe<LivesChangedSignal>(OnLivesChange);
-    }
+        [Inject] SignalBus signalBus;
 
-    private void OnViewDisable()
-    {
-        signalBus.Unsubscribe<LivesChangedSignal>(OnLivesChange);
-    }
-
-    private void OnLivesChange(LivesChangedSignal data)
-    {
-        if (data.Player == PlayerType.Hero)
+        public ScorePresenter(ScoreView view)
         {
-            view.ChangeHeroText($"<b>Hero:</b> {data.Lives}");
+            this.view = view;
+            view.OnViewEnable += OnViewEnable;
+            view.OnViewDisable += OnViewDisable;
         }
-        else if (data.Player == PlayerType.Opponent)
-        {
-            view.ChangeOpponentText($"<b>Opponent:</b> {data.Lives}");
-        }
-        else
-        {
-            Debug.LogError("");
-        }
-    }
 
-    public class Factory : PlaceholderFactory<ScoreView, ScorePresenter> {}
-}
+        private void OnViewEnable()
+        {
+            signalBus.Subscribe<LivesChangedSignal>(OnLivesChange);
+        }
+
+        private void OnViewDisable()
+        {
+            signalBus.Unsubscribe<LivesChangedSignal>(OnLivesChange);
+        }
+
+        private void OnLivesChange(LivesChangedSignal data)
+        {
+            if (data.Player == PlayerType.Hero)
+            {
+                view.ChangeHeroText($"<b>Hero:</b> {data.Lives}");
+            }
+            else if (data.Player == PlayerType.Opponent)
+            {
+                view.ChangeOpponentText($"<b>Opponent:</b> {data.Lives}");
+            }
+            else
+            {
+                Debug.LogError("");
+            }
+        }
+
+        public class Factory : PlaceholderFactory<ScoreView, ScorePresenter> {}
+    }
 }

@@ -5,49 +5,49 @@ using SmashBallTest.ScriptableObjects;
 
 namespace SmashBallTest.Managers
 {
-public interface ICourtsManager
-{
-    public CourtData GetCourtDataById(int courtId);
-    public Court GetCourtById(int courtId);
-    public Ball GetBallByCourtId(int courtId);
-}
-
-public class CourtsManager : ICourtsManager
-{
-    private readonly CourtsData courtsData;
-
-    public CourtsManager(CourtsData courtsData)
+    public interface ICourtsManager
     {
-        this.courtsData = courtsData;
+        public CourtData GetCourtDataById(int courtId);
+        public Court GetCourtById(int courtId);
+        public Ball GetBallByCourtId(int courtId);
     }
 
-    public CourtData GetCourtDataById(int courtId)
+    public class CourtsManager : ICourtsManager
     {
-        return courtsData.Datas.FirstOrDefault(hero => hero.CourtId == courtId);
-    }
+        private readonly CourtsData courtsData;
 
-    public Court GetCourtById(int courtId)
-    {
-        var courtData = GetCourtDataById(courtId);
-        if (courtData == null)
+        public CourtsManager(CourtsData courtsData)
         {
-            Debug.LogError($"Cannot get the courtData for the court {courtId}");
-            return null;
+            this.courtsData = courtsData;
         }
 
-        return courtData.GetCourt();
-    }
-
-    public Ball GetBallByCourtId(int courtId)
-    {
-        var courtData = GetCourtDataById(courtId);
-        if (courtData == null)
+        public CourtData GetCourtDataById(int courtId)
         {
-            Debug.LogError($"Cannot get the courtData for the court {courtId}");
-            return null;
+            return courtsData.Datas.FirstOrDefault(hero => hero.CourtId == courtId);
         }
 
-        return courtData.GetBall();
+        public Court GetCourtById(int courtId)
+        {
+            var courtData = GetCourtDataById(courtId);
+            if (courtData == null)
+            {
+                Debug.LogError($"Cannot get the courtData for the court {courtId}");
+                return null;
+            }
+
+            return courtData.GetCourt();
+        }
+
+        public Ball GetBallByCourtId(int courtId)
+        {
+            var courtData = GetCourtDataById(courtId);
+            if (courtData == null)
+            {
+                Debug.LogError($"Cannot get the courtData for the court {courtId}");
+                return null;
+            }
+
+            return courtData.GetBall();
+        }
     }
-}
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace SmashBallTest.ScriptableObjects
 {
-public enum DialogType
-{
-    Kickoff,
-    Smash,
-    Win
-}
+    public enum DialogType
+    {
+        Kickoff,
+        Smash,
+        Win
+    }
 }

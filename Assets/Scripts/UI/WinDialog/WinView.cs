@@ -6,36 +6,36 @@ using Zenject;
 
 namespace SmashBallTest.UI
 {
-public class WinView : IView
-{
-    [SerializeField] private TextMeshProUGUI winnerText;
-    [SerializeField] private Button playButton;
-
-    [Inject] WinPresenter.Factory presenterFactor;
-
-    public Action OnPlay;
-
-    void Awake()
+    public class WinView : IView
     {
-        presenterFactor.Create(this);
-    }
+        [SerializeField] private TextMeshProUGUI winnerText;
+        [SerializeField] private Button playButton;
 
-    protected override void OnEnable()
-    {
-        playButton.onClick.AddListener(OnPlayButtonClicked);
+        [Inject] WinPresenter.Factory presenterFactor;
 
-        base.OnEnable();
-    }
+        public Action OnPlay;
 
-    private void OnPlayButtonClicked()
-    {
-        OnPlay?.Invoke();
-        Destroy(gameObject);
-    }
+        void Awake()
+        {
+            presenterFactor.Create(this);
+        }
 
-    public void SetText(string text)
-    {
-        winnerText.text = text;
+        protected override void OnEnable()
+        {
+            playButton.onClick.AddListener(OnPlayButtonClicked);
+
+            base.OnEnable();
+        }
+
+        private void OnPlayButtonClicked()
+        {
+            OnPlay?.Invoke();
+            Destroy(gameObject);
+        }
+
+        public void SetText(string text)
+        {
+            winnerText.text = text;
+        }
     }
-}
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace SmashBallTest.ScriptableObjects
 {
-[CreateAssetMenu(fileName = "CourtsData", menuName = "SamshBallTest/CourtsData")]
-public class CourtsData : ScriptableObject
-{
-    [SerializeField] private CourtData[] datas;
-    public CourtData[] Datas => datas;
-}
+    [CreateAssetMenu(fileName = "CourtsData", menuName = "SamshBallTest/CourtsData")]
+    public class CourtsData : ScriptableObject
+    {
+        [SerializeField] private CourtData[] datas;
+        public CourtData[] Datas => datas;
+    }
 }

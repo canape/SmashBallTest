@@ -4,23 +4,23 @@ using UnityEngine;
 
 namespace SmashBallTest.UI
 {
-public class DialogsContainer : MonoBehaviour
-{
-    void Awake()
+    public class DialogsContainer : MonoBehaviour
     {
-        DontDestroyOnLoad(gameObject); 
-    }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
+        void Awake()
+        {
+            DontDestroyOnLoad(gameObject); 
+        }
         
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
+            
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Update is called once per frame
+        void Update()
+        {
+            
+        }
     }
-}
 }

@@ -4,31 +4,31 @@ using Zenject;
 
 namespace SmashBallTest.UI
 {
-public class ScoreView : IView
-{
-    [SerializeField] private TextMeshProUGUI heroScore;
-    [SerializeField] private TextMeshProUGUI opponentScore;
-
-    [Inject] ScorePresenter.Factory presenterFactory;
-
-    void Awake()
+    public class ScoreView : IView
     {
-        presenterFactory.Create(this);
-    }
+        [SerializeField] private TextMeshProUGUI heroScore;
+        [SerializeField] private TextMeshProUGUI opponentScore;
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
+        [Inject] ScorePresenter.Factory presenterFactory;
 
-    public void ChangeHeroText(string text)
-    {
-        heroScore.text = text;
-    }
+        void Awake()
+        {
+            presenterFactory.Create(this);
+        }
 
-    public void ChangeOpponentText(string text)
-    {
-        opponentScore.text = text;
+        // Update is called once per frame
+        void Update()
+        {
+        }
+
+        public void ChangeHeroText(string text)
+        {
+            heroScore.text = text;
+        }
+
+        public void ChangeOpponentText(string text)
+        {
+            opponentScore.text = text;
+        }
     }
-}
 }

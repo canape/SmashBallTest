@@ -3,29 +3,29 @@ using Zenject;
 
 namespace SmashBallTest.UI
 {
-public class KickoffPresenter : IPresenter
-{
-    private KickoffView view;
-
-    [Inject] SignalBus signalBus;
-
-    public KickoffPresenter(KickoffView view)
+    public class KickoffPresenter : IPresenter
     {
-        this.view = view;
-        view.OnViewEnable += OnViewEnable;
-        view.OnViewDisable += OnViewDisable;
-    }
+        private KickoffView view;
 
-    private void OnViewEnable()
-    {
-        
-    }
+        [Inject] SignalBus signalBus;
 
-    private void OnViewDisable()
-    {
-        
-    }
+        public KickoffPresenter(KickoffView view)
+        {
+            this.view = view;
+            view.OnViewEnable += OnViewEnable;
+            view.OnViewDisable += OnViewDisable;
+        }
 
-    public class Factory : PlaceholderFactory<KickoffView, KickoffPresenter> {}
-}
+        private void OnViewEnable()
+        {
+            
+        }
+
+        private void OnViewDisable()
+        {
+            
+        }
+
+        public class Factory : PlaceholderFactory<KickoffView, KickoffPresenter> {}
+    }
 }

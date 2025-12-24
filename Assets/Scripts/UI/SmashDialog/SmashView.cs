@@ -5,23 +5,23 @@ using Zenject;
 
 namespace SmashBallTest.UI
 {
-public class SmashView : IView
-{
-    [SerializeField] private float secondsToClose = 2;
-
-    [Inject] 
-    SmashPresenter.Factory presenterFactory;
-
-    void Awake()
+    public class SmashView : IView
     {
-        presenterFactory.Create(this);
-        StartCoroutine(DestroyAfterSomeSeconds());
-    }
+        [SerializeField] private float secondsToClose = 2;
 
-    private IEnumerator DestroyAfterSomeSeconds()
-    {
-        yield return new WaitForSeconds(secondsToClose);
-        Destroy(gameObject);
+        [Inject] 
+        SmashPresenter.Factory presenterFactory;
+
+        void Awake()
+        {
+            presenterFactory.Create(this);
+            StartCoroutine(DestroyAfterSomeSeconds());
+        }
+
+        private IEnumerator DestroyAfterSomeSeconds()
+        {
+            yield return new WaitForSeconds(secondsToClose);
+            Destroy(gameObject);
+        }
     }
-}
 }

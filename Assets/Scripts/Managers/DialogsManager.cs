@@ -7,40 +7,40 @@ using SmashBallTest.UI;
 
 namespace SmashBallTest.Managers
 {
-public interface IDialogsManager
-{
-    public void CreateDialog(DialogType dialogType);
-}
-
-public class DialogsManager : IDialogsManager
-{
-    private readonly DialogsData dialogsData;
-    private readonly DialogsContainer dialogsContainer;
-    private readonly DiContainer diContainer;
-
-    public DialogsManager(DiContainer diContainer, DialogsData dialogsData)
+    public interface IDialogsManager
     {
-        this.diContainer = diContainer;
-        this.dialogsData = dialogsData;
-        dialogsContainer = GameObject.Instantiate(dialogsData.DialogsContainer);
+        public void CreateDialog(DialogType dialogType);
     }
 
-    private GameObject GetDialogPrefabDataByType(DialogType type)
+    public class DialogsManager : IDialogsManager
     {
-        var dialogData = dialogsData.Datas.FirstOrDefault(dialogData => dialogData.DialogType == type);
-        return dialogData?.DialogPrefab;
-    }
+        private readonly DialogsData dialogsData;
+        private readonly DialogsContainer dialogsContainer;
+        private readonly DiContainer diContainer;
 
-    public void CreateDialog(DialogType dialogType)
-    {
-        var prefab = GetDialogPrefabDataByType(dialogType);
-        if (prefab == null)
+        public DialogsManager(DiContainer diContainer, DialogsData dialogsData)
         {
-            Debug.LogError($"The prefab for the dialog {dialogType} doesn't exist");
-            return;
+            this.diContainer = diContainer;
+            this.dialogsData = dialogsData;
+            dialogsContainer = GameObject.Instantiate(dialogsData.DialogsContainer);
         }
 
-        diContainer.InstantiatePrefab(prefab, dialogsContainer.transform);
+        private GameObject GetDialogPrefabDataByType(DialogType type)
+        {
+            var dialogData = dialogsData.Datas.FirstOrDefault(dialogData => dialogData.DialogType == type);
+            return dialogData?.DialogPrefab;
+        }
+
+        public void CreateDialog(DialogType dialogType)
+        {
+            var prefab = GetDialogPrefabDataByType(dialogType);
+            if (prefab == null)
+            {
+                Debug.LogError($"The prefab for the dialog {dialogType} doesn't exist");
+                return;
+            }
+
+            diContainer.InstantiatePrefab(prefab, dialogsContainer.transform);
+        }
     }
-}
 }

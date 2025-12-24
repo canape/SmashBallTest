@@ -3,7 +3,7 @@ using UnityEngine.Video;
 
 namespace SmashBallTest.UI
 {
-public abstract class IPresenter
-{
-}
+    public abstract class IPresenter
+    {
+    }
 }

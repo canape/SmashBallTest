@@ -6,13 +6,13 @@ using SmashBallTest.UI;
 
 namespace SmashBallTest.ScriptableObjects
 {
-[CreateAssetMenu(fileName = "DialogsData", menuName = "SamshBallTest/DialogsData")]
-public class DialogsData : ScriptableObject
-{
-    [SerializeField] private DialogsContainer dialogsContainer;
-    [SerializeField] private DialogData[] datas;
+    [CreateAssetMenu(fileName = "DialogsData", menuName = "SamshBallTest/DialogsData")]
+    public class DialogsData : ScriptableObject
+    {
+        [SerializeField] private DialogsContainer dialogsContainer;
+        [SerializeField] private DialogData[] datas;
 
-    public DialogsContainer DialogsContainer => dialogsContainer;
-    public DialogData[] Datas => datas;
-}
+        public DialogsContainer DialogsContainer => dialogsContainer;
+        public DialogData[] Datas => datas;
+    }
 }
