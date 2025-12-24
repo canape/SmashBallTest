@@ -3,20 +3,28 @@ using Zenject;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Text.RegularExpressions;
-using Zenject.SpaceFighter;
-
+using Terresquall;
 
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
+public enum GameplayStatus
+{
+    Undefined,
+    Point,
+    Smash,
+    End
+}
+
 public class GamePlayController : IInitializable, IDisposable, ITickable
 {
     private readonly IPlayerManager playerManager;
     private readonly ICourtsManager courtManager;
     private readonly IHeroesManager heroesManager;
+
+    private IDialogsManager dialogsManager;
 
     private CinemachineVirtualCamera mainVirtualCamera;
     private CinemachineVirtualCamera serveVirtualCamera;
@@ -31,11 +39,15 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
     private Hero hero;
     private Hero opponent;
 
+    private bool inputActivated;
+    private GameplayStatus status;
+
     public GamePlayController(
         SignalBus signalBus,
         IPlayerManager playerManager, 
         ICourtsManager courtManager, 
         IHeroesManager heroesManager,
+        IDialogsManager dialogsManager,
         [Inject(Id = GamePlayVirtualCameras.Main)] CinemachineVirtualCamera mainVirtualCamera,
         [Inject(Id = GamePlayVirtualCameras.Serve)] CinemachineVirtualCamera serveVirtualCamera,
         [Inject(Id = GamePlayVirtualCameras.Win)] CinemachineVirtualCamera winVirtualCamera,
@@ -47,11 +59,15 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         this.courtManager = courtManager;
         this.heroesManager = heroesManager;
 
+        this.dialogsManager = dialogsManager;
+
         this.mainVirtualCamera = mainVirtualCamera;
         this.serveVirtualCamera = serveVirtualCamera;
         this.winVirtualCamera = winVirtualCamera;
 
         this.playerInput = playerInput;
+
+        status = GameplayStatus.Undefined;
     }
 
     public void Initialize()
@@ -70,24 +86,30 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         opponent = heroesManager.GetHeroById(0);
         court.SetOpponent(opponent);
 
-        SetupCameras();
-        SetupPlayerInput();
+        touchPressInputAction = playerInput.actions["Touch"];
 
+        SetupCameras();
+        StartMatch();
     }
 
     public void Dispose()
     {
-        touchPressInputAction.started -= TouchStarted;
-        touchPressInputAction.canceled -= TouchEnded;
+        DeactivateInput();
     }
 
     public void Tick()
     {
-        OpponentAI();
+        if (status != GameplayStatus.Point)
+        {
+            return;
+        }
+
+        AwesomeOpponentAI();
         DetectHits();
+        MoveHero();
     }
 
-    private void OpponentAI()
+    private void AwesomeOpponentAI()
     {
         float distance = Vector3.Distance(opponent.transform.position, ball.transform.position);
 
@@ -113,11 +135,14 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         if (distance <= 1)
         {
             opponent.SubstractLive();
-            signalBus.Fire(new LivesChangedSignal() { Player = PlayerType.Opponent, Lives = opponent.Lives });
-            
+
             if (opponent.Lives <= 0)
             {
-                //signalBus.Fire(new MatchFinishedSignal() { Winner = PlayerType.Hero });
+                FinishMatch(opponent);
+            }
+            else
+            {
+                FinishPoint(opponent);
             }
         }
     }
@@ -128,13 +153,30 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         if (distance <= 1)
         {
             hero.SubstractLive();
-            signalBus.Fire(new LivesChangedSignal() { Player = PlayerType.Hero, Lives = hero.Lives });
 
             if (hero.Lives <= 0)
             {
-                //signalBus.Fire(new MatchFinishedSignal() { Winner = PlayerType.Opponent });
+                FinishMatch(hero);
+            }
+            else
+            {
+                FinishPoint(hero);
             }
         }
+    }
+
+    private void MoveHero()
+    {
+        if (!inputActivated)
+        {
+            return;
+        }
+
+        float moveX = VirtualJoystick.GetAxis("Horizontal");
+        float moveZ = VirtualJoystick.GetAxis("Vertical");
+
+        var direction = new Vector3(moveX, 0, moveZ).normalized;
+        hero.Move(direction, 5);
     }
 
     private void SetupCameras()
@@ -154,28 +196,35 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         winVirtualCamera.enabled = false;
     }
 
-    private void SetupPlayerInput()
+    private void ActivateInput()
     {
-        touchPressInputAction = playerInput.actions["Touch"];
+        if (inputActivated)
+        {
+            return;
+        }
 
-        touchPressInputAction.started += TouchStarted;
+        inputActivated = true;
         touchPressInputAction.canceled += TouchEnded;
     }
 
-    private void TouchStarted(InputAction.CallbackContext context)
+    private void DeactivateInput()
     {
-        var touchscreen = Touchscreen.current;
-        if (touchscreen == null) return;
-        var phase = touchscreen.primaryTouch.phase.ReadValue();
-        Debug.Log($"Touch started in GamePlayController (phase={phase})");
+        if (!inputActivated)
+        {
+            return;
+        }
+
+        inputActivated = false;
+        touchPressInputAction.canceled -= TouchEnded;
     }
 
     private void TouchEnded(InputAction.CallbackContext context)
     {
         var touchscreen = Touchscreen.current;
-        if (touchscreen == null) return;
-        var phase = touchscreen.primaryTouch.phase.ReadValue();
-        Debug.Log($"Touch ended in GamePlayController (phase={phase})");
+        if (touchscreen == null)
+        {
+            return;
+        }           
 
         hero.Swing();
         
@@ -186,5 +235,56 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
             float forceMagnitude = 5;
             ball.SetDirectionAndForce(hitNormal, forceMagnitude);
         }
+    }
+
+    public void StartPoint()
+    {
+        status = GameplayStatus.Point;
+        dialogsManager.CreateDialog(DialogType.Kickoff);
+        court.ResetPositions();
+        ball.PauseMovement();
+        ActivateInput();
+    }
+
+    public void FinishPoint(Hero loser)
+    {
+        status = GameplayStatus.Smash;
+        dialogsManager.CreateDialog(DialogType.Smash);
+        DeactivateInput();
+        ball.PauseMovement();
+        signalBus.Fire(new LivesChangedSignal() { Player = loser.Role, Lives = loser.Lives });
+    }
+
+    public void StartMatch()
+    {
+        hero.ResetLives();
+        opponent.ResetLives();
+        StartPoint();
+    }
+
+    public void FinishMatch(Hero loser)
+    {
+        status = GameplayStatus.End;
+        dialogsManager.CreateDialog(DialogType.Win);
+        DeactivateInput();
+        ball.PauseMovement();
+        signalBus.Fire(new LivesChangedSignal() { Player = loser.Role, Lives = loser.Lives });
+    }
+
+    public PlayerType? GetWinner()
+    {
+        if (status == GameplayStatus.End)
+        {
+            if (hero.Lives <= 0)
+            {
+                return PlayerType.Opponent;
+            }
+            else if (opponent.Lives <= 0)
+            {
+                return PlayerType.Hero;
+            }
+        }
+        
+        return null;
     }
 }

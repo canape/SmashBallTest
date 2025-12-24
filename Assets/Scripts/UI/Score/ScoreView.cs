@@ -7,11 +7,11 @@ public class ScoreView : IView
     [SerializeField] private TextMeshProUGUI heroScore;
     [SerializeField] private TextMeshProUGUI opponentScore;
 
-    [Inject] ScoreViewPresenter.Factory _factory;
+    [Inject] ScorePresenter.Factory presenterFactory;
 
     void Awake()
     {
-        _factory.Create(this);
+        presenterFactory.Create(this);
     }
 
     // Update is called once per frame

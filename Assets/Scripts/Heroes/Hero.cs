@@ -8,12 +8,21 @@ public class Hero : MonoBehaviour
     private HeroAoE AoE;
     private bool isSwining;
     private int lives;
+    private Rigidbody rb;
 
     public int Lives => lives;
+    public PlayerType Role;
 
     void Awake()
     {
-        lives = 3;
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            Debug.LogError($"There is not RigidBody in the JoysticsController for the GameObject with name {name}");
+            return;
+        }
+        
+        ResetLives();
     }
 
     public void SetAoE(HeroAoE AoE)
@@ -36,7 +45,19 @@ public class Hero : MonoBehaviour
         });
     }
 
-    public void SetDirection(Vector3 direction)
+    public void Move(Vector3 direction, float speed)
+    {
+        if (direction == Vector3.zero || speed == 0)
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
+        
+        rb.velocity = direction * speed;
+        ModifyCharacterRotation(direction);
+    }
+
+    public void ModifyCharacterRotation(Vector3 direction)
     {
         Quaternion targetRot = Quaternion.LookRotation(-direction);
         character.transform.rotation = targetRot;
@@ -45,5 +66,10 @@ public class Hero : MonoBehaviour
     public void SubstractLive()
     {
         lives--;
+    }
+
+    public void ResetLives()
+    {
+        lives = 3;
     }
 }

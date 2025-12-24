@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a184b433011b48028e4cc7a64010cc9, type: 3}
-  m_Name: ProjectScriptableObjectInstaller
+  m_Name: ScriptableObjectInstaller
   m_EditorClassIdentifier: 
+  dialogsData: {fileID: 11400000, guid: 16f2f45e69a34474187f6c996b49e88c, type: 2}
   courtsData: {fileID: 11400000, guid: f66901dc5d9594eddb8dddbfe3d63e5c, type: 2}
   heroesData: {fileID: 11400000, guid: 957889c5261814b77a09762d87601eff, type: 2}

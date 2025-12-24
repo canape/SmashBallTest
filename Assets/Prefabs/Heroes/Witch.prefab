@@ -414,7 +414,6 @@ GameObject:
   - component: {fileID: 834898386707668609}
   - component: {fileID: 9057733218119449744}
   - component: {fileID: 4826217633538085422}
-  - component: {fileID: 3567616386666309498}
   m_Layer: 0
   m_Name: Witch
   m_TagString: Untagged
@@ -432,8 +431,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3378935558192019051}
   m_Father: {fileID: 0}
@@ -478,19 +477,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 480187031311301608}
---- !u!114 &3567616386666309498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 840272330101625621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f5608b272c0942c984b2ff585a0a87e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
 --- !u!1 &855442807785275398
 GameObject:
   m_ObjectHideFlags: 0

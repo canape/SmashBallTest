@@ -7,17 +7,9 @@ public class Court : MonoBehaviour
 {
     private CourtData courtData;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private Ball ball;
+    private Hero hero;
+    private Hero opponent;
 
     public void Initialize(CourtData courtData)
     {
@@ -26,23 +18,43 @@ public class Court : MonoBehaviour
 
     public void SetBall(Ball ball)
     {
-        ball.transform.SetParent(transform);
-        ball.transform.position = courtData.StartHeroPosition + new Vector3(0, 0.01f, 2);
+        if (this.ball != null)
+        {
+            Destroy(ball.gameObject);
+        }
+
+        this.ball = ball;
+        this.ball.transform.SetParent(transform, false);
     }
 
     public void SetHero(Hero hero)
     {
-        hero.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
-        hero.transform.SetParent(transform);
-        hero.transform.position = courtData.StartHeroPosition;
+        if (this.hero != null)
+        {
+            Destroy(this.hero.gameObject);
+        }
+
+        this.hero = hero;
+        this.hero.Role = PlayerType.Hero;
+        this.hero.transform.SetParent(transform, false);
     }
 
     public void SetOpponent(Hero opponent)
     {
-        opponent.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
-        opponent.transform.SetParent(transform);
+        if (this.opponent != null)
+        {
+            Destroy(this.opponent.gameObject);
+        }
+
+        this.opponent = opponent;
+        this.opponent.Role = PlayerType.Opponent;
+        this.opponent.transform.SetParent(transform, false);
+    }
+
+    public void ResetPositions()
+    {
+        hero.transform.position = courtData.StartHeroPosition;
         opponent.transform.position = courtData.StartOpponentPosition;
-        
-        opponent.GetComponent<JoysticsController>().enabled = false;
+        ball.transform.position = courtData.StartHeroPosition + new Vector3(0, 0.01f, 2);
     }
 }

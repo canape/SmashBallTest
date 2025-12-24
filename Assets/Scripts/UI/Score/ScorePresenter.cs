@@ -1,13 +1,13 @@
 using UnityEngine;
 using Zenject;
 
-public class ScoreViewPresenter : IPresenter
+public class ScorePresenter : IPresenter
 {
     private ScoreView view;
 
     [Inject] SignalBus signalBus;
 
-    public ScoreViewPresenter(ScoreView view)
+    public ScorePresenter(ScoreView view)
     {
         this.view = view;
         view.OnViewEnable += OnViewEnable;
@@ -40,5 +40,5 @@ public class ScoreViewPresenter : IPresenter
         }
     }
 
-    public class Factory : PlaceholderFactory<ScoreView, ScoreViewPresenter> {}
+    public class Factory : PlaceholderFactory<ScoreView, ScorePresenter> {}
 }

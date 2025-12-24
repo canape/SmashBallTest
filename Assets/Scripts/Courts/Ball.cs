@@ -14,9 +14,19 @@ public class Ball : MonoBehaviour
         }
     }
 
-    public void SetDirectionAndForce(Vector3 direction, float force)
+    public void PauseMovement()
     {
         rb.velocity = Vector3.zero;
+    }
+
+    public void SetDirectionAndForce(Vector3 direction, float force)
+    {
+        if (direction == Vector3.zero)
+        {
+            return;
+        }
+
+        PauseMovement();
         rb.AddForce(direction * force, ForceMode.Impulse);
     }
 }
