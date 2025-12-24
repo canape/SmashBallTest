@@ -1,5 +1,7 @@
 using UnityEngine;
 
+namespace SmashBallTest.Courts
+{
 public class Ball : MonoBehaviour
 {
     private Rigidbody rb;
@@ -37,4 +39,5 @@ public class Ball : MonoBehaviour
         PauseMovement();
         rb.AddForce(direction * force, ForceMode.Impulse);
     }
+}
 }

@@ -1,6 +1,9 @@
 using UnityEngine;
 using Zenject;
+using SmashBallTest.Installers;
 
+namespace SmashBallTest.UI
+{
 public class ScorePresenter : IPresenter
 {
     private ScoreView view;
@@ -41,4 +44,5 @@ public class ScorePresenter : IPresenter
     }
 
     public class Factory : PlaceholderFactory<ScoreView, ScorePresenter> {}
+}
 }

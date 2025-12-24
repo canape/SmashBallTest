@@ -2,6 +2,8 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
+namespace SmashBallTest.ScriptableObjects
+{
 [Serializable]
 public class HeroData
 {
@@ -16,4 +18,5 @@ public class HeroData
     public int Health => health;
     public GameObject Prefab => prefab;
     public GameObject AoEPrefab => aoEPrefab;
+}
 }

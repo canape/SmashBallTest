@@ -1,28 +1,27 @@
 using UnityEngine;
 using Zenject;
+using SmashBallTest;
 
-public class SmashPresenter : IPresenter
+namespace SmashBallTest.UI
 {
-    private SmashView view;
-
-    [Inject] 
-    GamePlayController gamePlayController;
-
-    public SmashPresenter(SmashView view)
+    public class SmashPresenter : IPresenter
     {
-        this.view = view;
-        view.OnViewDisable += OnViewDisable;
-    }
+        private SmashView view;
 
-    private void OnViewDisable()
-    {
-        gamePlayController.Serve();
-    }
+        [Inject] 
+        GamePlayController gamePlayController;
 
-    private void OnLivesChange(LivesChangedSignal data)
-    {
-        
-    }
+        public SmashPresenter(SmashView view)
+        {
+            this.view = view;
+            view.OnViewDisable += OnViewDisable;
+        }
 
-    public class Factory : PlaceholderFactory<SmashView, SmashPresenter> {}
+        private void OnViewDisable()
+        {
+            gamePlayController.Serve();
+        }
+
+        public class Factory : PlaceholderFactory<SmashView, SmashPresenter> {}
+    }
 }

@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+namespace SmashBallTest.UI
+{
 public abstract class IView : MonoBehaviour
 {
     public Action OnViewEnable;
@@ -32,4 +34,5 @@ public abstract class IView : MonoBehaviour
         OnViewDisable = null;
         OnViewDestroy = null;
     }
+}
 }

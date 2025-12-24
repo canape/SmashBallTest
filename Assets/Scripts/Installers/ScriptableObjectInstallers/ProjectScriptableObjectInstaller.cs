@@ -1,6 +1,9 @@
 using UnityEngine;
 using Zenject;
+using SmashBallTest.ScriptableObjects;
 
+namespace SmashBallTest.Installers
+{
 [CreateAssetMenu(fileName = "ProjectScriptableObjectInstaller", menuName = "Installers/ProjectScriptableObjectInstaller")]
 public class ProjectScriptableObjectInstaller : ScriptableObjectInstaller<ProjectScriptableObjectInstaller>
 {
@@ -14,4 +17,5 @@ public class ProjectScriptableObjectInstaller : ScriptableObjectInstaller<Projec
         Container.BindInstances(courtsData);
         Container.BindInstances(heroesData);
     }
+}
 }

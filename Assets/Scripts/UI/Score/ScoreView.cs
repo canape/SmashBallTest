@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
+namespace SmashBallTest.UI
+{
 public class ScoreView : IView
 {
     [SerializeField] private TextMeshProUGUI heroScore;
@@ -28,4 +30,5 @@ public class ScoreView : IView
     {
         opponentScore.text = text;
     }
+}
 }

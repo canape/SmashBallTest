@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using UnityEngine;
+using SmashBallTest.UI;
 
+namespace SmashBallTest.ScriptableObjects
+{
 [CreateAssetMenu(fileName = "DialogsData", menuName = "SamshBallTest/DialogsData")]
 public class DialogsData : ScriptableObject
 {
@@ -11,4 +14,5 @@ public class DialogsData : ScriptableObject
 
     public DialogsContainer DialogsContainer => dialogsContainer;
     public DialogData[] Datas => datas;
+}
 }

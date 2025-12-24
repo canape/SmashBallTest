@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SmashBallTest.Courts;
 
+namespace SmashBallTest.ScriptableObjects
+{
 [Serializable]
 public class CourtData
 {
@@ -58,4 +61,5 @@ public class CourtData
 
         return ballGameObject.AddComponent<Ball>();
     }
+}
 }

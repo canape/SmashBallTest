@@ -1,6 +1,8 @@
 using UnityEngine;
 using Zenject;
 
+namespace SmashBallTest.UI
+{
 public class KickoffPresenter : IPresenter
 {
     private KickoffView view;
@@ -25,4 +27,5 @@ public class KickoffPresenter : IPresenter
     }
 
     public class Factory : PlaceholderFactory<KickoffView, KickoffPresenter> {}
+}
 }

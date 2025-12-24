@@ -5,7 +5,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Linq;
 using Zenject;
+using SmashBallTest.Heroes;
+using SmashBallTest.ScriptableObjects;
 
+namespace SmashBallTest.Managers
+{
 public interface IHeroesManager
 {
     public HeroData GetHeroDataById(int heroId);
@@ -61,4 +65,5 @@ public class HeroesManager : IHeroesManager
 
         return heroAoE;
     }
+}
 }

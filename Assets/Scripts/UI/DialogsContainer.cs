@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace SmashBallTest.UI
+{
 public class DialogsContainer : MonoBehaviour
 {
     void Awake()
@@ -20,4 +22,5 @@ public class DialogsContainer : MonoBehaviour
     {
         
     }
+}
 }

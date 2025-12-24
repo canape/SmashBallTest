@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
+namespace SmashBallTest.UI
+{
 public class SmashView : IView
 {
     [SerializeField] private float secondsToClose = 2;
@@ -21,4 +23,5 @@ public class SmashView : IView
         yield return new WaitForSeconds(secondsToClose);
         Destroy(gameObject);
     }
+}
 }

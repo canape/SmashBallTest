@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
+namespace SmashBallTest.UI
+{
 public class KickoffView : IView
 {
     [Inject]
@@ -34,4 +36,5 @@ public class KickoffView : IView
     {
         Destroy(gameObject);
     }
+}
 }

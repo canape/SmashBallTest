@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using Zenject;
 
+namespace SmashBallTest.Managers
+{
 public interface IPlayerManager
 {
     public int GetSelectedCourtId();
@@ -26,4 +28,5 @@ public class PlayerManager : IPlayerManager
     {
         return 1;
     }
+}
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
+namespace SmashBallTest.UI
+{
 public class WinView : IView
 {
     [SerializeField] private TextMeshProUGUI winnerText;
@@ -35,4 +37,5 @@ public class WinView : IView
     {
         winnerText.text = text;
     }
+}
 }

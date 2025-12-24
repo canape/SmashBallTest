@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Linq;
+using SmashBallTest.Courts;
+using SmashBallTest.ScriptableObjects;
 
+namespace SmashBallTest.Managers
+{
 public interface ICourtsManager
 {
     public CourtData GetCourtDataById(int courtId);
@@ -45,4 +49,5 @@ public class CourtsManager : ICourtsManager
 
         return courtData.GetBall();
     }
+}
 }

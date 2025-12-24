@@ -2,7 +2,12 @@ using UnityEngine;
 using Zenject;
 using Cinemachine;
 using UnityEngine.InputSystem;
+using SmashBallTest;
+using SmashBallTest.Managers;
+using SmashBallTest.UI;
 
+namespace SmashBallTest.Installers
+{
 public enum GamePlayVirtualCameras
 {
     Main,
@@ -69,4 +74,5 @@ public class GamePlayInstaller : MonoInstaller
         Container.BindFactory<SmashView, SmashPresenter, SmashPresenter.Factory>();
         Container.BindFactory<WinView, WinPresenter, WinPresenter.Factory>();
     }
+}
 }

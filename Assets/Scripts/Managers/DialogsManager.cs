@@ -2,7 +2,11 @@ using System;
 using System.Linq;
 using UnityEngine;
 using Zenject;
+using SmashBallTest.ScriptableObjects;
+using SmashBallTest.UI;
 
+namespace SmashBallTest.Managers
+{
 public interface IDialogsManager
 {
     public void CreateDialog(DialogType dialogType);
@@ -38,4 +42,5 @@ public class DialogsManager : IDialogsManager
 
         diContainer.InstantiatePrefab(prefab, dialogsContainer.transform);
     }
+}
 }

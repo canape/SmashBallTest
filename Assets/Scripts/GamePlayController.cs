@@ -5,12 +5,19 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using Terresquall;
+using SmashBallTest.Courts;
+using SmashBallTest.Heroes;
+using SmashBallTest.Installers;
+using SmashBallTest.Managers;
+using SmashBallTest.ScriptableObjects;
 
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
+namespace SmashBallTest
+{
 public enum GameplayStatus
 {
     Undefined,
@@ -272,4 +279,5 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         
         return null;
     }
+}
 }

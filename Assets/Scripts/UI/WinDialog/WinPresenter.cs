@@ -1,6 +1,9 @@
 using UnityEngine;
 using Zenject;
+using SmashBallTest;
 
+namespace SmashBallTest.UI
+{
 public class WinPresenter : IPresenter
 {
     private WinView view;
@@ -27,4 +30,5 @@ public class WinPresenter : IPresenter
     }
 
     public class Factory : PlaceholderFactory<WinView, WinPresenter> {}
+}
 }

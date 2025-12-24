@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace SmashBallTest.Heroes
+{
 public class HeroAoE : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -15,4 +17,5 @@ public class HeroAoE : MonoBehaviour
     {
         
     }
+}
 }

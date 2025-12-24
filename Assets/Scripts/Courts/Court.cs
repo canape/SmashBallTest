@@ -2,7 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using SmashBallTest.Heroes;
+using SmashBallTest.Installers;
+using SmashBallTest.ScriptableObjects;
 
+namespace SmashBallTest.Courts
+{
 public class Court : MonoBehaviour
 {
     private CourtData courtData;
@@ -65,4 +70,5 @@ public class Court : MonoBehaviour
             Quaternion.Euler(new Vector3(90, 0, 0))
         );
     }
+}
 }

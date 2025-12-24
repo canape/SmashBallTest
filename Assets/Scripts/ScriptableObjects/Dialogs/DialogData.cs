@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace SmashBallTest.ScriptableObjects
+{
 [Serializable]
 public class DialogData
 {
@@ -12,4 +14,5 @@ public class DialogData
     public DialogType DialogType => dialogType;
     public GameObject DialogPrefab => dialogPrefab;
 
+}
 }

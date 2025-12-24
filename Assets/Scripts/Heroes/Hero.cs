@@ -1,7 +1,10 @@
 using UnityEngine;
 using DG.Tweening;
 using Zenject;
+using SmashBallTest.Installers;
 
+namespace SmashBallTest.Heroes
+{
 public class Hero : MonoBehaviour
 {
     [SerializeField] private GameObject character;
@@ -84,4 +87,5 @@ public class Hero : MonoBehaviour
         Vector3 rotation = Role == PlayerType.Opponent ? new Vector3(0, 0, 0) : new Vector3(0, 180, 0);
         character.transform.rotation = Quaternion.Euler(rotation);
     }
+}
 }
