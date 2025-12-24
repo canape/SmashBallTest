@@ -20,11 +20,12 @@ public class Court : MonoBehaviour
     {
         if (this.ball != null)
         {
-            Destroy(ball.gameObject);
+            Destroy(this.ball.gameObject);
         }
 
         this.ball = ball;
-        this.ball.transform.SetParent(transform, false);
+        this.ball.transform.SetParent(transform);
+        this.ball.transform.position = new Vector3(0, 0.01f, -3.0f);
     }
 
     public void SetHero(Hero hero)
@@ -53,8 +54,15 @@ public class Court : MonoBehaviour
 
     public void ResetPositions()
     {
-        hero.transform.position = courtData.StartHeroPosition;
-        opponent.transform.position = courtData.StartOpponentPosition;
-        ball.transform.position = courtData.StartHeroPosition + new Vector3(0, 0.01f, 2);
+        hero.transform.localPosition = courtData.StartHeroPosition;
+        hero.ResetRotation();
+
+        opponent.transform.localPosition = courtData.StartOpponentPosition;
+        opponent.ResetRotation();
+
+        ball.ResetPose(
+            courtData.StartHeroPosition + new Vector3(0, 0.01f, 2),
+            Quaternion.Euler(new Vector3(90, 0, 0))
+        );
     }
 }

@@ -15,6 +15,7 @@ public enum GameplayStatus
     Undefined,
     Point,
     Smash,
+    Serve,
     End
 }
 
@@ -39,7 +40,9 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
     private Hero hero;
     private Hero opponent;
 
-    private bool inputActivated;
+    private bool touchActivated;
+    private bool heroMovementActivated;
+
     private GameplayStatus status;
 
     public GamePlayController(
@@ -94,7 +97,8 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
 
     public void Dispose()
     {
-        DeactivateInput();
+        DeactivateTouch();
+        DeactivatePlayerMovement();
     }
 
     public void Tick()
@@ -167,7 +171,7 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
 
     private void MoveHero()
     {
-        if (!inputActivated)
+        if (!heroMovementActivated)
         {
             return;
         }
@@ -196,26 +200,36 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         winVirtualCamera.enabled = false;
     }
 
-    private void ActivateInput()
+    private void ActivateTouch()
     {
-        if (inputActivated)
+        if (touchActivated)
         {
             return;
         }
 
-        inputActivated = true;
+        touchActivated = true;
         touchPressInputAction.canceled += TouchEnded;
     }
 
-    private void DeactivateInput()
+    private void DeactivateTouch()
     {
-        if (!inputActivated)
+        if (!touchActivated)
         {
             return;
         }
-
-        inputActivated = false;
+                
+        touchActivated = false;
         touchPressInputAction.canceled -= TouchEnded;
+    }
+
+    private void ActivatePlayerMovement()
+    {
+        heroMovementActivated = true;
+    }
+
+    private void DeactivatePlayerMovement()
+    {
+        heroMovementActivated = false;
     }
 
     private void TouchEnded(InputAction.CallbackContext context)
@@ -224,51 +238,70 @@ public class GamePlayController : IInitializable, IDisposable, ITickable
         if (touchscreen == null)
         {
             return;
-        }           
+        }
 
         hero.Swing();
         
         float distance = Vector3.Distance(hero.transform.position, ball.transform.position);
-        if (distance <= 2)
+        if (distance <= 3)
         {
+            if (status == GameplayStatus.Serve)
+            {
+                status = GameplayStatus.Point;
+                ActivatePlayerMovement();
+            }
+
             Vector3 hitNormal = (ball.transform.position - hero.transform.position).normalized;
             float forceMagnitude = 5;
             ball.SetDirectionAndForce(hitNormal, forceMagnitude);
         }
     }
 
-    public void StartPoint()
+    public void Serve()
     {
-        status = GameplayStatus.Point;
+        status = GameplayStatus.Serve;
         dialogsManager.CreateDialog(DialogType.Kickoff);
         court.ResetPositions();
         ball.PauseMovement();
-        ActivateInput();
+
+        ActivateTouch();
+        DeactivatePlayerMovement();
     }
 
     public void FinishPoint(Hero loser)
     {
         status = GameplayStatus.Smash;
         dialogsManager.CreateDialog(DialogType.Smash);
-        DeactivateInput();
         ball.PauseMovement();
         signalBus.Fire(new LivesChangedSignal() { Player = loser.Role, Lives = loser.Lives });
+
+        DeactivateTouch();
+        DeactivatePlayerMovement();
     }
 
     public void StartMatch()
     {
+        // Important: signalBus.Fire should be inside the Hero class to prevent
+        // firing this from multiple places. I can't do it right now because
+        // I'm running out of time.
+
         hero.ResetLives();
+        signalBus.Fire(new LivesChangedSignal() { Player = hero.Role, Lives = hero.Lives });
         opponent.ResetLives();
-        StartPoint();
+        signalBus.Fire(new LivesChangedSignal() { Player = opponent.Role, Lives = opponent.Lives });
+        
+        Serve();
     }
 
     public void FinishMatch(Hero loser)
     {
         status = GameplayStatus.End;
         dialogsManager.CreateDialog(DialogType.Win);
-        DeactivateInput();
         ball.PauseMovement();
         signalBus.Fire(new LivesChangedSignal() { Player = loser.Role, Lives = loser.Lives });
+
+        DeactivateTouch();
+        DeactivatePlayerMovement();
     }
 
     public PlayerType? GetWinner()

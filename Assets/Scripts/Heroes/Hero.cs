@@ -29,7 +29,7 @@ public class Hero : MonoBehaviour
     {
         this.AoE = AoE;
         this.AoE.transform.SetParent(transform);
-        this.AoE.transform.SetPositionAndRotation(new Vector3(0, 0.01f, 0), Quaternion.Euler(new Vector3 (90.0f, 0, 0)));
+        this.AoE.transform.position = new Vector3(0, 0.01f, 0);
     }
 
     public void Swing()
@@ -71,5 +71,19 @@ public class Hero : MonoBehaviour
     public void ResetLives()
     {
         lives = 3;
+    }
+
+    public void ResetRotation()
+    {
+        //This is not good. It is needed to refactor
+        if (Role == PlayerType.Opponent)
+        {
+            character.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        }
+        else
+        {
+            character.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+        }
+        
     }
 }

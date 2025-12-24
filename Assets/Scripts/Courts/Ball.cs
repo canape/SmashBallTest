@@ -17,6 +17,22 @@ public class Ball : MonoBehaviour
     public void PauseMovement()
     {
         rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+    }
+
+    public void ResetPose(Vector3 localPosition, Quaternion localRotation)
+    {
+        PauseMovement();
+        if (rb != null)
+        {
+            rb.position = transform.parent.TransformPoint(localPosition);
+            rb.rotation = transform.parent.rotation * localRotation;
+        }
+        else
+        {
+            transform.localPosition = localPosition;
+            transform.localRotation = localRotation;
+        }
     }
 
     public void SetDirectionAndForce(Vector3 direction, float force)

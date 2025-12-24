@@ -16,7 +16,7 @@ public class SmashPresenter : IPresenter
 
     private void OnViewDisable()
     {
-        gamePlayController.StartPoint();
+        gamePlayController.Serve();
     }
 
     private void OnLivesChange(LivesChangedSignal data)
